@@ -1,0 +1,162 @@
+useEffect(() => {
+  //const { name, room } = queryString.parse(location.search);
+
+  socket = io(ENDPOINT);
+
+  //setRoom(room);
+  //setName(name);
+
+  socket.emit("join", { name, room }, (error) => {
+    if (error) {
+      alert(error);
+    }
+  });
+});
+
+
+
+import React, { useEffect, useState } from "react";
+import "./Gameboard.css";
+import queryString from "query-string";
+import io from "socket.io-client";
+
+//let socket;
+
+function Gameboard({ location }) {
+  let [inputs, setInputs] = useState(["", "", "", "", "", "", "", "", ""]);
+  var [x_turn, setX_Turn] = useState(false);
+  const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
+  const ENDPOINT = "localhost:3500";
+
+  //socket = io(ENDPOINT);
+
+  //, [ENDPOINT, location.search]
+
+  return (
+    <div className="game-board">
+      <div
+        id="one"
+        onClick={() => {
+          if (x_turn) document.getElementById("one").innerText = "X";
+          else document.getElementById("one").innerText = "O";
+        }}
+        name="1"
+        className="box"
+      ></div>
+      <div
+        id="two"
+        onClick={() => {
+          document.getElementById("two").innerText = "O";
+        }}
+        name="2"
+        className="box"
+      ></div>
+      <div
+        id="three"
+        onClick={() => {
+          x_turn ? setInputs((inputs[2] = "X")) : setInputs((inputs[2] = "O"));
+          setX_Turn(!x_turn);
+          console.log(inputs);
+          console.log(x_turn);
+        }}
+        name="3"
+        className="box"
+      >
+        {inputs[2]}
+      </div>
+      <div
+        id="four"
+        onClick={() => {
+          x_turn ? setInputs((inputs[3] = "X")) : setInputs((inputs[3] = "O"));
+          setX_Turn(!x_turn);
+          console.log(inputs);
+          console.log(x_turn);
+        }}
+        name="4"
+        className="box"
+      >
+        {inputs[3]}
+      </div>
+      <div
+        id="five"
+        onClick={() => {
+          x_turn ? setInputs((inputs[4] = "X")) : setInputs((inputs[4] = "O"));
+          setX_Turn(!x_turn);
+          console.log(inputs);
+        }}
+        name="5"
+        className="box"
+      >
+        {inputs[4]}
+      </div>
+      <div
+        id="six"
+        onClick={() => {
+          x_turn ? setInputs((inputs[5] = "X")) : setInputs((inputs[5] = "O"));
+          setX_Turn(!x_turn);
+          console.log(inputs);
+        }}
+        name="6"
+        className="box"
+      >
+        {inputs[5]}
+      </div>
+      <div
+        id="seven"
+        onClick={() => {
+          x_turn ? setInputs((inputs[6] = "X")) : setInputs((inputs[6] = "O"));
+          setX_Turn(!x_turn);
+          console.log(inputs);
+        }}
+        name="7"
+        className="box"
+      >
+        {inputs[6]}
+      </div>
+      <div
+        id="eight"
+        onClick={() => {
+          x_turn ? setInputs((inputs[7] = "X")) : setInputs((inputs[7] = "O"));
+          setX_Turn(!x_turn);
+        }}
+        name="8"
+        className="box"
+      >
+        {inputs[7]}
+      </div>
+      <div
+        id="nine"
+        onClick={() => {
+          x_turn ? setInputs((inputs[8] = "X")) : setInputs((inputs[8] = "O"));
+          setX_Turn(!x_turn);
+        }}
+        name="9"
+        className="box"
+      >
+        {inputs[8]}
+      </div>
+    </div>
+  );
+}
+
+export default Gameboard;
+
+
+function handleClick(e) {
+    if (e.target.innerText === "") {
+      if (x_turn) {
+        e.target.innerText = "X";
+
+        setArrX((prevArrX) => {
+          //or return [...prevArr, "X"];
+          return [...prevArrX, parseInt(e.target.id)];
+        });
+        setI(i + 1);
+      } else {
+        e.target.innerText = "O";
+        setArrO((prevArrO) => {
+          return [...prevArrO, parseInt(e.target.id)];
+        });
+        setI(i + 1);
+      }
